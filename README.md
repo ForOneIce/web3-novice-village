@@ -4,7 +4,7 @@
 针对3月高强度Solidity共学营设计，帮助0基础学员提前建立必要认知、完成环境配置、消除学习恐惧，提高共学成功率。
 
 ## 🚀 快速开始
-1. 用浏览器访问 https://foroneice.github.io/web3-novice-village/
+1. 用浏览器访问[Web3新手村预习指南](https://foroneice.github.io/web3-novice-village/) 
 2. 从Level 0开始，按顺序完成所有关卡
 
 ## 🎮 关卡系统
