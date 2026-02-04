@@ -748,6 +748,110 @@
             margin: 20px 0;
         }
         
+        /* 冰块彩蛋 - 左下角浮窗 */
+        .ice-easter-egg {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(173, 216, 230, 0.8));
+            border-radius: 15px;
+            box-shadow: 
+                inset 0 0 20px rgba(173, 216, 230, 0.5),
+                0 8px 25px rgba(100, 217, 255, 0.4),
+                0 0 40px rgba(100, 217, 255, 0.2);
+            cursor: pointer;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite, sparkle-ice 2s ease-in-out infinite;
+            border: 2px solid rgba(100, 217, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .ice-easter-egg:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 
+                inset 0 0 30px rgba(173, 216, 230, 0.7),
+                0 12px 35px rgba(100, 217, 255, 0.6),
+                0 0 60px rgba(100, 217, 255, 0.4);
+        }
+        
+        .ice-easter-egg::before {
+            content: '🧊';
+            font-size: 2.5rem;
+            filter: drop-shadow(0 2px 8px rgba(100, 217, 255, 0.5));
+        }
+        
+        .ice-tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 25, 47, 0.95);
+            color: #64d9ff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            margin-bottom: 10px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid rgba(100, 217, 255, 0.3);
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+        
+        .ice-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 6px solid transparent;
+            border-top-color: rgba(10, 25, 47, 0.95);
+        }
+        
+        .ice-easter-egg:hover .ice-tooltip {
+            opacity: 1;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes sparkle-ice {
+            0%, 100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.3);
+            }
+        }
+        
+        /* 响应式 - 小屏幕隐藏彩蛋 */
+        @media (max-width: 768px) {
+            .ice-easter-egg {
+                width: 60px;
+                height: 60px;
+                bottom: 20px;
+                left: 20px;
+            }
+            
+            .ice-easter-egg::before {
+                font-size: 2rem;
+            }
+        }
+        
         .tweet-example {
             background: white;
             border-radius: 12px;
@@ -2558,5 +2662,10 @@
             }, 1000);
         });
     </script>
+    
+    <!-- 冰块彩蛋 - 缓解焦虑 -->
+    <div class="ice-easter-egg" onclick="window.location.href='letter.html'" title="感到焦虑？点击冰块放松一下">
+        <div class="ice-tooltip">焦虑了？点击加冰块 🧊</div>
+    </div>
 </body>
 </html>
