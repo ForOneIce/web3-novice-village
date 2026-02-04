@@ -1,0 +1,2514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3新手村 | 完整环境准备与预习指南</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #10b981;
+            --accent: #8b5cf6;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #cbd5e1;
+            --github: #333;
+            --twitter: #1da1f2;
+            --telegram: #26a5e4;
+            --notion: #000;
+            --google: #ea4335;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0f9ff 0%, #f1f5f9 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 头部区域 */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            color: white;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none" opacity="0.1"><path d="M0,0 L100,0 L100,100 Z" fill="white"/></svg>');
+            background-size: cover;
+        }
+        
+        .logo {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .slogan {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 1;
+            font-weight: 300;
+        }
+        
+        .countdown {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .countdown h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .time-unit {
+            background: white;
+            color: var(--primary);
+            padding: 15px;
+            border-radius: 12px;
+            min-width: 80px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .time-value {
+            font-size: 2rem;
+            font-weight: 700;
+            display: block;
+        }
+        
+        .time-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* 环境准备横幅 */
+        .environment-banner {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 3px solid var(--warning);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .environment-banner::before {
+            content: "⚠️";
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+        
+        .environment-banner h2 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        /* 工具卡片网格 */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .tool-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        
+        .github-bg { background: var(--github); }
+        .twitter-bg { background: var(--twitter); }
+        .telegram-bg { background: var(--telegram); }
+        .google-bg { background: var(--google); }
+        .notion-bg { background: var(--notion); }
+        
+        .tool-status {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.8rem;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .status-ready { background: #d1fae5; color: #065f46; }
+        .status-pending { background: #fef3c7; color: #92400e; }
+        
+        /* 新手公告栏 */
+        .announcement {
+            background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            border-left: 8px solid var(--primary);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .announcement::before {
+            content: "💡";
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 4rem;
+            opacity: 0.2;
+        }
+        
+        .announcement h2 {
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .advice-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .advice-icon {
+            background: var(--primary);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+        
+        /* 关卡系统 */
+        .level-system {
+            margin: 50px 0;
+        }
+        
+        .level-indicator {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .level-indicator::before {
+            content: "";
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gray);
+            z-index: 0;
+        }
+        
+        .level-step {
+            background: white;
+            border: 4px solid var(--gray);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .level-step.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
+        
+        .level-step.completed {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+        }
+        
+        .level-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .level-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .level-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            border-top: 6px solid var(--primary);
+        }
+        
+        .level-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .level-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .level-badge {
+            background: var(--primary);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        /* 资源卡片 */
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 25px 0;
+        }
+        
+        .resource-card {
+            background: var(--light);
+            border-radius: 16px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .resource-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .resource-card.featured {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+            border-color: var(--primary);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+        
+        .resource-tag {
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 8px;
+            margin-bottom: 10px;
+        }
+        
+        /* 挑战区域 */
+        .challenge-area {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px dashed var(--accent);
+        }
+        
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .quest-badge {
+            background: var(--accent);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        /* 模拟交互区域 */
+        .simulation-area {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .simulation-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .simulation-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: var(--primary);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .btn:hover {
+            background: #4f46e5;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary:hover {
+            background: #0da271;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-lg {
+            padding: 16px 32px;
+            font-size: 1.1rem;
+        }
+        
+        /* 进度指示器 */
+        .progress-container {
+            background: var(--light);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .progress-bar {
+            height: 12px;
+            background: var(--gray);
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--accent));
+            border-radius: 6px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+        
+        /* 检查清单 */
+        .checklist {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+        
+        .checklist-checkbox {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            border: 2px solid var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        
+        .checklist-checkbox.checked {
+            background: var(--secondary);
+            border-color: var(--secondary);
+            color: white;
+        }
+        
+        /* 底部 */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 60px;
+            background: var(--dark);
+            color: white;
+            border-radius: 30px 30px 0 0;
+        }
+        
+        .footer-logo {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .slogan {
+                font-size: 1.1rem;
+            }
+            
+            .level-indicator {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .level-indicator::before {
+                display: none;
+            }
+            
+            .tool-grid, .resource-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .time-unit {
+                min-width: 70px;
+                padding: 12px;
+            }
+            
+            .time-value {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* 动画类 */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .shake {
+            animation: shake 0.5s;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        
+        /* 工具提示 */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            border-radius: 6px;
+            padding: 10px;
+            position: absolute;
+            z-index: 100;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* GitHub模拟界面 */
+        .github-simulator {
+            background: #0d1117;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #c9d1d9;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .github-terminal {
+            background: #161b22;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        
+        .terminal-line {
+            margin-bottom: 8px;
+        }
+        
+        .terminal-prompt {
+            color: #58a6ff;
+        }
+        
+        .terminal-command {
+            color: white;
+        }
+        
+        .terminal-output {
+            color: #8b949e;
+        }
+        
+        /* Build in Public指南 */
+        .build-guide {
+            background: linear-gradient(135deg, #e0f2fe, #f0f9ff);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+        
+        .tweet-example {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            border-left: 4px solid var(--twitter);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-campground"></i>
+            </div>
+            <h1>Web3 新手村</h1>
+            <p class="slogan">3月，你将成为一名构建者 | Solidity 3月共学营预习指南</p>
+            
+            <div class="countdown">
+                <h3><i class="fas fa-calendar-alt"></i> 距离3月共学营开营还有</h3>
+                <div class="countdown-timer">
+                    <div class="time-unit">
+                        <span class="time-value" id="days">30</span>
+                        <span class="time-label">天</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-value" id="hours">0</span>
+                        <span class="time-label">小时</span>
+                    </div>
+                    <div class="time-unit">
+                        <span class="time-value" id="minutes">0</span>
+                        <span class="time-label">分钟</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <!-- 环境准备横幅 -->
+        <section class="environment-banner">
+            <h2><i class="fas fa-tools"></i> ⚠️ 重要提醒：3月共学前必须完成的环境准备</h2>
+            <p><strong>授课要求：</strong>课程中将使用GitHub提交作业，并在X（Twitter）上Build in Public。</p>
+            <p><strong>0基础提示：</strong>这些环境配置可能会花费1-2天时间，请务必提前完成！</p>
+        </section>
+        
+        <!-- 工具注册清单 -->
+        <section class="level-card">
+            <h2><i class="fas fa-clipboard-list"></i> 环境准备清单（必须完成的5项）</h2>
+            <p>点击每项工具完成注册和基础配置，全部完成后才能顺利开始3月的共学</p>
+            
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <div class="tool-icon github-bg">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3>GitHub 账户</h3>
+                    <p class="tool-status status-pending">待完成</p>
+                    <p><strong>用途：</strong>提交作业、代码版本管理、协作开发</p>
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="github" data-step="1">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>注册GitHub账号</strong>
+                                <p>使用谷歌邮箱注册，用户名建议用英文</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="github" data-step="2">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>创建第一个仓库</strong>
+                                <p>仓库名：my-solidity-journey</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="github" data-step="3">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>学习基本Git操作</strong>
+                                <p>clone, add, commit, push</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://github.com/signup" target="_blank" class="btn" style="background: var(--github);">
+                        <i class="fab fa-github"></i> 注册 GitHub
+                    </a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon twitter-bg">
+                        <i class="fab fa-twitter"></i>
+                    </div>
+                    <h3>X (Twitter) 账户</h3>
+                    <p class="tool-status status-pending">待完成</p>
+                    <p><strong>用途：</strong>Build in Public、学习分享、社区互动</p>
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="twitter" data-step="1">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>注册/更新X账号</strong>
+                                <p>用户名建议与GitHub一致</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="twitter" data-step="2">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>关注Web3共学营开发者</strong>
+                                <p>@HerstoryWeb3, @0xbalala等</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="twitter" data-step="3">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>发布第一条学习Tweet</strong>
+                                <p>#BuildinPublic #Solidity</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://twitter.com/i/flow/signup" target="_blank" class="btn" style="background: var(--twitter);">
+                        <i class="fab fa-twitter"></i> 注册 X (Twitter)
+                    </a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon telegram-bg">
+                        <i class="fab fa-telegram"></i>
+                    </div>
+                    <h3>discord账号与社区加入</h3>
+                    <p class="tool-status status-pending">待完成</p>
+                    <p><strong>用途：</strong>加入学习社区、实时交流、获取帮助</p>
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="telegram" data-step="1">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>下载discord应用</strong>
+                                <p>手机端或桌面端 
+                                    不下载也可访问网页版 https://discord.com/ </p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="telegram" data-step="2">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>注册账号</strong>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="telegram" data-step="3">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>加入Web3学习群</strong>
+                                <p>根据邀请链接加入共学群组</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://discord.com/ target="_blank" class="btn" style="background: var(--telegram);">
+                        <i class="fab fa-telegram"></i> 下载 Telegram
+                    </a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon google-bg">
+                        <i class="fab fa-google"></i>
+                    </div>
+                    <h3>谷歌邮箱 (Gmail)</h3>
+                    <p class="tool-status status-pending">待完成</p>
+                    <p><strong>用途：</strong>注册其他服务、接收通知、团队协作</p>
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="gmail" data-step="1">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>注册Gmail账号</strong>
+                                <p>如果没有的话</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="gmail" data-step="2">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>设置两步验证</strong>
+                                <p>增强账号安全性</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="gmail" data-step="3">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>创建学习文件夹</strong>
+                                <p>整理Web3相关邮件</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://accounts.google.com/signup" target="_blank" class="btn" style="background: var(--google);">
+                        <i class="fab fa-google"></i> 注册 Gmail
+                    </a>
+                </div>
+                
+                <div class="tool-card">
+                    <div class="tool-icon notion-bg">
+                        <i class="fas fa-sticky-note"></i>
+                    </div>
+                    <h3>Notion 账户</h3>
+                    <p class="tool-status status-pending">待完成</p>
+                    <p><strong>用途：</strong>学习笔记、知识管理、进度追踪</p>
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="notion" data-step="1">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>注册Notion账号</strong>
+                                <p>使用谷歌账号快速登录</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="notion" data-step="2">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>创建学习工作区</strong>
+                                <p>命名为"Web3学习之旅"</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" data-tool="notion" data-step="3">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>访问学习资料</strong>
+                                <p>访问共学营提供的Web3学习资料</p>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://www.notion.so/signup" target="_blank" class="btn" style="background: var(--notion);">
+                        <i class="fas fa-sticky-note"></i> 注册 Notion
+                    </a>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="btn btn-lg" onclick="checkAllTools()">
+                    <i class="fas fa-check-double"></i> 检查完成状态
+                </button>
+                <div id="tools-check-result" style="margin-top: 20px;"></div>
+            </div>
+        </section>
+        
+        <!-- GitHub使用指南 -->
+        <section class="level-card">
+            <h2><i class="fab fa-github"></i> GitHub 基础使用指南（作业提交必备）</h2>
+            <p>学习如何使用GitHub提交作业，这是课程中的核心要求</p>
+            
+            <div class="simulation-area">
+                <h3><i class="fas fa-terminal"></i> Git基础命令模拟</h3>
+                <p>在真实的命令行中，你会使用这些命令来提交代码：</p>
+                
+                <div class="github-simulator">
+                    <div class="github-terminal">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">git clone https://github.com/yourusername/my-solidity-journey.git</span>
+                        </div>
+                        <div class="terminal-output">Cloning into 'my-solidity-journey'...</div>
+                        
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">cd my-solidity-journey</span>
+                        </div>
+                        
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">echo "# My First Solidity Project" >> README.md</span>
+                        </div>
+                        
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">git add README.md</span>
+                        </div>
+                        
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">git commit -m "Add README file"</span>
+                        </div>
+                        <div class="terminal-output">[main 1a2b3c4] Add README file</div>
+                        
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">git push origin main</span>
+                        </div>
+                        <div class="terminal-output">Enumerating objects: 3, done.</div>
+                        <div class="terminal-output">Writing objects: 100% (3/3), 240 bytes | 240.00 KiB/s, done.</div>
+                        <div class="terminal-output">To https://github.com/yourusername/my-solidity-journey.git</div>
+                    </div>
+                    
+                    <div style="margin-top: 20px;">
+                        <h4>练习：模拟一次Git提交</h4>
+                        <p>在下方输入你的"提交信息"，模拟一次Git提交：</p>
+                        <input type="text" id="commit-message" placeholder="例如：完成第一课作业" style="width: 100%; padding: 12px; border: 2px solid var(--gray); border-radius: 8px; margin: 15px 0;">
+                        <button class="btn" onclick="simulateGitCommit()">
+                            <i class="fas fa-code-commit"></i> 模拟提交
+                        </button>
+                        <div id="git-sim-result" style="margin-top: 15px;"></div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4><i class="fas fa-lightbulb"></i> GitHub桌面版（推荐给新手）</h4>
+                    <p>如果你不熟悉命令行，可以使用GitHub Desktop图形化工具：</p>
+                    <ol style="margin: 15px 0 15px 20px;">
+                        <li>下载并安装 <a href="https://desktop.github.com/" target="_blank">GitHub Desktop</a></li>
+                        <li>登录你的GitHub账号</li>
+                        <li>创建/克隆仓库</li>
+                        <li>通过图形界面提交和推送更改</li>
+                    </ol>
+                    <a href="https://desktop.github.com/" target="_blank" class="btn btn-outline">
+                        <i class="fas fa-download"></i> 下载 GitHub Desktop
+                    </a>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Build in Public指南 -->
+        <section class="level-card">
+            <h2><i class="fab fa-twitter"></i> Build in Public 指南（X/Twitter）</h2>
+            <p>学习如何在X上分享学习过程，这是Web3文化的重要组成部分</p>
+            
+            <div class="build-guide">
+                <h3><i class="fas fa-bullhorn"></i> 什么是Build in Public？</h3>
+                <p>Build in Public（公开构建）是指在社交媒体上公开分享你的学习、构建过程，而不是只展示最终成果。</p>
+                
+                <div class="tweet-example">
+                    <h4><i class="fas fa-retweet"></i> 学习Tweet示例：</h4>
+                    <p>"Day 1 of #30DaysOfSolidity ✅</p>
+                    <p>今天完成了CryptoZombies的前两课，理解了合约的基本结构和函数！</p>
+                    <p>小小的成就：部署了第一个HelloWorld合约到Goerli测试网 🎉</p>
+                    <p>#Solidity #BuildinPublic"</p>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h4><i class="fas fa-edit"></i> 创建你的第一条学习Tweet</h4>
+                    <textarea id="tweet-content" placeholder="分享你今天的学习进展..." rows="4" style="width: 100%; padding: 15px; border: 2px solid var(--twitter); border-radius: 10px; margin: 15px 0; font-size: 1rem;"></textarea>
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <button class="btn" onclick="simulateTweet()" style="background: var(--twitter);">
+                            <i class="fab fa-twitter"></i> 模拟发布Tweet
+                        </button>
+                        <div style="font-size: 0.9rem; color: #64748b;">
+                            字符数: <span id="tweet-length">0</span>/280
+                        </div>
+                    </div>
+                    <div id="tweet-sim-result" style="margin-top: 15px;"></div>
+                </div>
+                
+                <div style="margin-top: 30px;">
+                    <h4><i class="fas fa-hashtag"></i> 推荐使用的Hashtag：</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin: 15px 0;">
+                        <span style="background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 20px;">#30DaysOfSolidity</span>
+                        <span style="background: #f0f9ff; color: #0c4a6e; padding: 8px 15px; border-radius: 20px;">#Web3新手村</span>
+                        <span style="background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 20px;">#Solidity</span>
+                        <span style="background: #f0f9ff; color: #0c4a6e; padding: 8px 15px; border-radius: 20px;">#BuildInPublic</span>
+                        <span style="background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 20px;">#WomenlnWeb3</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 新手心理建设公告栏 -->
+        <section class="announcement">
+            <h2><i class="fas fa-heart"></i> 给即将入学的你：环境配置是最重要的第一步</h2>
+            <div class="advice-item">
+                <div class="advice-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <div>
+                    <h3>环境配置可能会卡住很多人</h3>
+                    <p>GitHub、Git、X、discord...这些工具对新手的挑战可能比代码本身更大。请务必预留足够时间（1-2天）来完成环境配置，不要留到开课前最后一天！</p>
+                </div>
+            </div>
+            <div class="advice-item">
+                <div class="advice-icon"><i class="fas fa-search"></i></div>
+                <div>
+                    <h3>遇到问题怎么办？</h3>
+                    <p>1. 先Google搜索错误信息（这是程序员最重要的技能）<br>
+                       2. 查看官方文档<br>
+                       3. 在discord学习群提问<br>
+                       4. 在X上提问并带上相关Hashtag</p>
+                </div>
+            </div>
+            <div class="advice-item">
+                <div class="advice-icon"><i class="fas fa-users"></i></div>
+                <div>
+                    <h3>提前加入社区</h3>
+                    <p>现在就加入discord学习群，认识未来的同学。3月开课时，你已经有了学习伙伴和支持网络。</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 关卡系统 -->
+        <section class="level-system">
+            <h2 style="text-align: center; margin-bottom: 30px;"><i class="fas fa-map-signs"></i> 学习闯关地图</h2>
+            
+            <div class="level-indicator">
+                <div class="level-step active" data-level="0">0</div>
+                <div class="level-step" data-level="1">1</div>
+                <div class="level-step" data-level="2">2</div>
+                <div class="level-step" data-level="3">3</div>
+                <div class="level-step" data-level="4">4</div>
+            </div>
+            
+            <!-- Level 0: 环境准备 -->
+            <div class="level-content active" id="level-0">
+                <div class="level-card">
+                    <div class="level-header">
+                        <div class="level-title">
+                            <h2><i class="fas fa-tools"></i> Level 0: 环境准备</h2>
+                            <span class="level-badge">耗时：1-2天</span>
+                        </div>
+                        <span class="quest-badge">目标：完成所有工具注册和基础配置</span>
+                    </div>
+                    
+                    <p>在这一关，你需要完成所有必要工具的注册和基础配置，为3月共学做好技术准备。</p>
+                    
+                    <div class="checklist" style="margin: 30px 0;">
+                        <h4><i class="fas fa-tasks"></i> 环境准备检查清单</h4>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" id="env-github">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>GitHub账号与基础使用</strong>
+                                <p>已完成注册，理解基本的Git操作</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" id="env-twitter">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>X账号与Build in Public准备</strong>
+                                <p>已注册，了解如何分享学习进展</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" id="env-telegram">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>discord账号与社区加入</strong>
+                                <p>已注册并加入至少一个Web3学习群</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" id="env-gmail">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>谷歌邮箱账号</strong>
+                                <p>已注册，用于其他服务登录</p>
+                            </div>
+                        </div>
+                        <div class="checklist-item">
+                            <div class="checklist-checkbox" id="env-notion">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <strong>Notion账号与学习模板</strong>
+                                <p>已注册，已创建学习工作区</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn btn-lg" onclick="verifyEnvironment()">
+                            <i class="fas fa-check-circle"></i> 验证环境准备完成
+                        </button>
+                        <div id="env-verification-result" style="margin-top: 20px;"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Level 1: 破除迷雾 -->
+            <div class="level-content" id="level-1">
+                <div class="level-card">
+                    <div class="level-header">
+                        <div class="level-title">
+                            <h2><i class="fas fa-cloud"></i> Level 1: 破除迷雾</h2>
+                            <span class="level-badge">耗时：2-3天</span>
+                        </div>
+                        <span class="quest-badge">目标：理解去中心化，安装好钱包</span>
+                    </div>
+                    
+                    <p>在这一关，你需要理解区块链的基本概念，并准备好你的第一个Web3工具——钱包。</p>
+                    
+                    <div class="resource-grid">
+                        <div class="resource-card featured">
+                            <div class="resource-icon"><i class="fas fa-play-circle"></i></div>
+                            <h3>可视化区块链演示</h3>
+                            <p><strong>Anders Brownworth 的区块链演示</strong> - 全网最好的区块链可视化工具</p>
+                            <div>
+                                <span class="resource-tag">互动演示</span>
+                                <span class="resource-tag">零基础</span>
+                            </div>
+                            <p class="tooltip">推荐理由：不用写代码，通过网页互动就能明白什么是Hash、区块、区块链、分布式账本。
+                                <span class="tooltip-text">这是建立区块链直觉的工具，玩一玩，尝试自己给别人解释区块链</span>
+                            </p>
+                            <a href="https://andersbrownworth.com/blockchain/" target="_blank" class="btn">开始探索</a>
+                        </div>
+                        
+                        <div class="resource-card">
+                            <div class="resource-icon"><i class="fas fa-video"></i></div>
+                            <h3>Whiteboard Crypto</h3>
+                            <p>用简单的比喻解释复杂的Web3概念</p>
+                            <div>
+                                <span class="resource-tag">视频</span>
+                                <span class="resource-tag">中文搬运</span>
+                            </div>
+                            <p>推荐理由：用麦当劳解释DeFi，用邮局解释智能合约，吃饭、通勤时看，建立行业术语库。</p>
+                            <a href="https://www.youtube.com/c/WhiteboardCrypto" target="_blank" class="btn btn-outline">观看视频</a>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-area">
+                        <div class="challenge-header">
+                            <h3><i class="fas fa-flag"></i> 新手村任务 #1: 创建你的数字身份</h3>
+                        </div>
+                        
+                        <div class="simulation-area">
+                            <div class="simulation-header">
+                                <h4><i class="fas fa-wallet"></i> MetaMask钱包安装指引</h4>
+                                <div class="simulation-controls">
+                                    <button class="btn btn-secondary" onclick="simulateWalletInstall()">
+                                        <i class="fas fa-download"></i> 模拟安装
+                                    </button>
+                                    <a href="https://metamask.io/download/" target="_blank" class="btn">
+                                        <i class="fas fa-external-link-alt"></i> 真实安装
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <div id="wallet-simulation">
+                                <p>1. 点击上方按钮模拟安装MetaMask浏览器扩展</p>
+                                <p>2. 创建新钱包，<strong>务必备份助记词</strong>（写在纸上，不要截图）</p>
+                                <p>3. 找到"网络"切换按钮，选择"Goerli测试网"</p>
+                            </div>
+                            
+                            <div id="wallet-success" style="display: none;">
+                                <div style="background: #d1fae5; padding: 20px; border-radius: 10px; margin-top: 20px;">
+                                    <h4 style="color: #065f46; display: flex; align-items: center; gap: 10px;">
+                                        <i class="fas fa-check-circle"></i> 恭喜！钱包创建成功
+                                    </h4>
+                                    <p>你的模拟钱包地址：<code id="wallet-address">0x0000...0000</code></p>
+                                    <p>请保存这个地址，它是你在Web3世界的身份证</p>
+                                </div>
+                            </div>
+                            
+                            <div style="margin-top: 20px;">
+                                <h4>通关验证</h4>
+                                <p>在下方输入你的钱包地址（0x开头），完成Level 1</p>
+                                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                    <input type="text" id="wallet-input" placeholder="0x..." style="flex: 1; padding: 12px; border: 2px solid var(--gray); border-radius: 8px;">
+                                    <button class="btn" onclick="verifyWalletAddress()">验证地址</button>
+                                </div>
+                                <div id="wallet-verification-result" style="margin-top: 15px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Level 2: 魔法沙盒 -->
+            <div class="level-content" id="level-2">
+                <div class="level-card">
+                    <div class="level-header">
+                        <div class="level-title">
+                            <h2><i class="fas fa-shapes"></i> Level 2: 魔法沙盒</h2>
+                            <span class="level-badge">耗时：1周</span>
+                        </div>
+                        <span class="quest-badge">目标：不写代码，体验"交易"和"Gas费"</span>
+                    </div>
+                    
+                    <p>在这一关，你将使用测试币进行第一次链上交互，理解交易、Gas和区块浏览器的概念。</p>
+                    
+                    <div class="resource-grid">
+                        <div class="resource-card">
+                            <div class="resource-icon"><i class="fas fa-faucet"></i></div>
+                            <h3>测试币水龙头聚合</h3>
+                            <p>获取免费测试币进行实验</p>
+                            <div>
+                                <span class="resource-tag">工具</span>
+                                <span class="resource-tag">免费</span>
+                            </div>
+                            <p>推荐水龙头：</p>
+                            <ul style="margin: 10px 0 15px 20px;">
+                                <li><a href="https://goerlifaucet.com/" target="_blank">Goerli Faucet</a> - 稳定的选择</li>
+                                <li><a href="https://faucet.paradigm.xyz/" target="_blank">Paradigm Faucet</a> - 多链支持</li>
+                            </ul>
+                            <button class="btn btn-outline" onclick="simulateGetTestETH()">模拟领取测试币</button>
+                        </div>
+                        
+                        <div class="resource-card">
+                            <div class="resource-icon"><i class="fas fa-eye"></i></div>
+                            <h3>区块浏览器指南</h3>
+                            <p>学习查看和追踪交易</p>
+                            <div>
+                                <span class="resource-tag">教程</span>
+                                <span class="resource-tag">必备技能</span>
+                            </div>
+                            <p>Etherscan是查看以太坊交易的工具，相当于区块链的"浏览器"。</p>
+                            <p>学习重点：</p>
+                            <ol style="margin: 10px 0 15px 20px;">
+                                <li>如何通过交易哈希查看交易详情</li>
+                                <li>理解Gas Price、Gas Limit和实际费用</li>
+                                <li>查看交易状态（成功/失败/等待）</li>
+                            </ol>
+                            <a href="https://etherscan.io/" target="_blank" class="btn btn-outline">探索 Etherscan</a>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-area">
+                        <div class="challenge-header">
+                            <h3><i class="fas fa-flag"></i> 新手村任务 #2: 第一笔上链交易</h3>
+                        </div>
+                        
+                        <div class="simulation-area">
+                            <div id="transaction-simulation">
+                                <h4><i class="fas fa-paper-plane"></i> 模拟链上交互</h4>
+                                <p>点击下方按钮，模拟发送一笔区块链交易：</p>
+                                
+                                <div style="background: #f1f5f9; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: center;">
+                                    <button class="btn btn-lg pulse" onclick="sendFirstTransaction()" id="transaction-btn">
+                                        <i class="fas fa-bolt"></i> Hello Blockchain!
+                                    </button>
+                                    <p style="margin-top: 15px; font-size: 0.9rem; color: #64748b;">模拟支付Gas费用并发送交易</p>
+                                </div>
+                                
+                                <div id="transaction-details" style="display: none;">
+                                    <h4>交易详情</h4>
+                                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin: 15px 0;">
+                                        <p><strong>交易哈希：</strong> <code>0x9a7f8b3c...e4d5f6a7</code></p>
+                                        <p><strong>Gas 费用：</strong> 0.001 Goerli ETH</p>
+                                        <p><strong>状态：</strong> <span id="tx-status">等待确认...</span></p>
+                                        <p><strong>区块确认数：</strong> <span id="block-confirmations">0</span></p>
+                                    </div>
+                                    
+                                    <div id="nft-reward" style="display: none; text-align: center; padding: 25px; background: linear-gradient(135deg, #e0f2fe, #f0f9ff); border-radius: 15px; margin: 25px 0;">
+                                        <h3 style="color: var(--primary); margin-bottom: 15px;">🎉 恭喜完成第一次链上交互！</h3>
+                                        <div style="width: 200px; height: 200px; margin: 0 auto 20px; background: linear-gradient(135deg, #8b5cf6, #6366f1); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: white; font-size: 4rem;">
+                                            <i class="fas fa-certificate"></i>
+                                        </div>
+                                        <p><strong>你获得了"链上先驱者"纪念NFT</strong></p>
+                                        <p style="font-size: 0.9rem; color: #64748b;">此NFT证明你完成了第一次区块链交互</p>
+                                        <button class="btn" onclick="downloadNFTReward()">
+                                            <i class="fas fa-download"></i> 下载纪念证书
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Level 3: 逻辑拼图 -->
+            <div class="level-content" id="level-3">
+                <div class="level-card">
+                    <div class="level-header">
+                        <div class="level-title">
+                            <h2><i class="fas fa-puzzle-piece"></i> Level 3: 逻辑拼图</h2>
+                            <span class="level-badge">耗时：1周</span>
+                        </div>
+                        <span class="quest-badge">目标：编程逻辑启蒙（变量、判断、循环）</span>
+                    </div>
+                    
+                    <p>在这一关，你需要通过可视化的方式理解编程的基本逻辑，为写Solidity代码打下基础。</p>
+                    
+                    <div class="resource-grid">
+                        <div class="resource-card featured">
+                            <div class="resource-icon"><i class="fas fa-gamepad"></i></div>
+                            <h3>CryptoZombies</h3>
+                            <p>通过游戏学习Solidity编程</p>
+                            <div>
+                                <span class="resource-tag">互动教程</span>
+                                <span class="resource-tag">中文</span>
+                            </div>
+                            <p><strong>预习目标：</strong> 完成"Solidity: Beginner"的前2-3课</p>
+                            <p>重点理解：</p>
+                            <ul style="margin: 10px 0 15px 20px;">
+                                <li>变量（Variable）是什么</li>
+                                <li>函数（Function）的结构</li>
+                                <li>合约（Contract）的基本框架</li>
+                            </ul>
+                            <p class="tooltip">不要追求全部完成！前2-3课建立概念即可。
+                                <span class="tooltip-text">CryptoZombies是很好的入门工具，但不要在预习阶段深入复杂概念。建立基础认知即可。</span>
+                            </p>
+                            <a href="https://cryptozombies.io/" target="_blank" class="btn">开始游戏</a>
+                        </div>
+                        
+                        <div class="resource-card">
+                            <div class="resource-icon"><i class="fas fa-cubes"></i></div>
+                            <h3>ETH.build</h3>
+                            <p>可视化区块链编程工具</p>
+                            <div>
+                                <span class="resource-tag">可视化</span>
+                                <span class="resource-tag">拖拽编程</span>
+                            </div>
+                            <p>像拖拽积木一样理解区块链的逻辑流（Input -> Function -> Output）。</p>
+                            <p>价值：对于0代码基础的人，先理解"逻辑流"比背代码更有用。</p>
+                            <a href="https://eth.build/" target="_blank" class="btn btn-outline">开始构建</a>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-area">
+                        <div class="challenge-header">
+                            <h3><i class="fas fa-flag"></i> 新手村任务 #3: 谁能买咖啡？</h3>
+                        </div>
+                        
+                        <div class="simulation-area">
+                            <h4><i class="fas fa-mug-hot"></i> 编程逻辑挑战</h4>
+                            <p>使用下面的逻辑积木，完成"买咖啡"的逻辑判断：</p>
+                            
+                            <div style="background: #f8fafc; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                                <h5>逻辑规则：</h5>
+                                <p>1. 如果钱包余额 ≥ 5元，可以买咖啡</p>
+                                <p>2. 如果钱包余额 < 5元，不能买咖啡</p>
+                                <p>3. 如果今天是周五，咖啡打8折（只需要4元）</p>
+                            </div>
+                            
+                            <div id="blockly-area" style="height: 300px; background: white; border: 2px solid var(--gray); border-radius: 10px; margin: 20px 0; padding: 15px;">
+                                <!-- 模拟Blockly界面 -->
+                                <div style="display: flex; height: 100%;">
+                                    <div style="width: 30%; border-right: 2px solid var(--gray); padding-right: 15px;">
+                                        <h5>逻辑积木</h5>
+                                        <div class="logic-block" draggable="true" data-type="if" style="background: #fef3c7; padding: 10px; margin: 10px 0; border-radius: 5px; cursor: move;">
+                                            <i class="fas fa-question-circle"></i> 如果...
+                                        </div>
+                                        <div class="logic-block" draggable="true" data-type="variable" style="background: #dbeafe; padding: 10px; margin: 10px 0; border-radius: 5px; cursor: move;">
+                                            <i class="fas fa-coins"></i> 钱包余额
+                                        </div>
+                                        <div class="logic-block" draggable="true" data-type="operator" style="background: #d1fae5; padding: 10px; margin: 10px 0; border-radius: 5px; cursor: move;">
+                                            <i class="fas fa-greater-than-equal"></i> ≥ 5
+                                        </div>
+                                        <div class="logic-block" draggable="true" data-type="action" style="background: #e0e7ff; padding: 10px; margin: 10px 0; border-radius: 5px; cursor: move;">
+                                            <i class="fas fa-mug-hot"></i> 买咖啡
+                                        </div>
+                                    </div>
+                                    <div id="workspace" style="width: 70%; padding-left: 15px;">
+                                        <h5>工作区</h5>
+                                        <p>将积木拖到这里构建逻辑：</p>
+                                        <div id="logic-workspace" style="min-height: 200px; border: 2px dashed var(--gray); border-radius: 5px; margin-top: 10px; padding: 10px;">
+                                            <!-- 积木会拖到这里 -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 15px; margin-top: 20px;">
+                                <button class="btn" onclick="testLogic()">
+                                    <i class="fas fa-play"></i> 测试逻辑
+                                </button>
+                                <button class="btn btn-outline" onclick="resetWorkspace()">
+                                    <i class="fas fa-redo"></i> 重置
+                                </button>
+                                <button class="btn btn-secondary" onclick="showSolution()">
+                                    <i class="fas fa-lightbulb"></i> 查看答案
+                                </button>
+                            </div>
+                            
+                            <div id="logic-test-result" style="margin-top: 20px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Level 4: 初见 Solidity -->
+            <div class="level-content" id="level-4">
+                <div class="level-card">
+                    <div class="level-header">
+                        <div class="level-title">
+                            <h2><i class="fas fa-code"></i> Level 4: 初见 Solidity</h2>
+                            <span class="level-badge">耗时：剩余时间</span>
+                        </div>
+                        <span class="quest-badge">目标：熟悉 Remix 编辑器界面，写出第一行代码</span>
+                    </div>
+                    
+                    <p>在这一关，你将接触真正的Solidity开发环境，并完成第一个简单的智能合约修改。</p>
+                    
+                    <div class="resource-grid">
+                        <div class="resource-card featured">
+                            <div class="resource-icon"><i class="fas fa-laptop-code"></i></div>
+                            <h3>Remix IDE 极简手册</h3>
+                            <p>浏览器内的Solidity开发环境</p>
+                            <div>
+                                <span class="resource-tag">在线工具</span>
+                                <span class="resource-tag">零配置</span>
+                            </div>
+                            <p><strong>关键操作：</strong></p>
+                            <ol style="margin: 10px 0 15px 20px;">
+                                <li>创建新文件（.sol扩展名）</li>
+                                <li>编写/粘贴代码</li>
+                                <li>点击编译按钮（无错误即可）</li>
+                                <li>切换到"部署"选项卡，选择JavaScript VM环境</li>
+                                <li>点击部署，与合约交互</li>
+                            </ol>
+                            <a href="https://remix.ethereum.org/" target="_blank" class="btn">打开 Remix</a>
+                        </div>
+                        
+                        <div class="resource-card">
+                            <div class="resource-icon"><i class="fas fa-book"></i></div>
+                            <h3>WTF Academy</h3>
+                            <p>中文圈友好的Solidity开源教程</p>
+                            <div>
+                                <span class="resource-tag">中文教程</span>
+                                <span class="resource-tag">开源</span>
+                            </div>
+                            <p><strong>预习建议：</strong> 只看前3章"入门"部分，不要深入深水区。</p>
+                            <p>重点了解：</p>
+                            <ul style="margin: 10px 0 15px 20px;">
+                                <li>Solidity合约的基本结构</li>
+                                <li>值类型与引用类型</li>
+                                <li>函数的定义与调用</li>
+                            </ul>
+                            <a href="https://wtf.academy/" target="_blank" class="btn btn-outline">开始学习</a>
+                        </div>
+                    </div>
+                    
+                    <div class="challenge-area">
+                        <div class="challenge-header">
+                            <h3><i class="fas fa-flag"></i> 新手村任务 #4: 修改你的存钱罐</h3>
+                        </div>
+                        
+                        <div class="simulation-area">
+                            <h4><i class="fas fa-piggy-bank"></i> 第一行Solidity代码</h4>
+                            <p>你将在Remix中修改一个简单的存钱罐合约：</p>
+                            
+                            <div style="background: #1e293b; color: #e2e8f0; padding: 20px; border-radius: 10px; margin: 20px 0; font-family: 'Courier New', monospace; font-size: 0.95rem; line-height: 1.5;">
+                                <span style="color: #60a5fa;">pragma</span> solidity <span style="color: #fbbf24;">^0.8.0</span>;<br><br>
+                                <span style="color: #60a5fa;">contract</span> <span style="color: #34d399;">PiggyBank</span> {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #cbd5e1;">// 最大存款限制</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #60a5fa;">uint</span> <span style="color: #fbbf24;">public</span> maxDeposit = <span style="color: #fbbf24;">100</span>; <span style="color: #cbd5e1;">// ← 修改这一行</span><br><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #60a5fa;">mapping</span>(<span style="color: #60a5fa;">address</span> => <span style="color: #60a5fa;">uint</span>) <span style="color: #fbbf24;">public</span> deposits;<br><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #cbd5e1;">// 存款函数</span><br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #60a5fa;">function</span> <span style="color: #34d399;">deposit</span>() <span style="color: #fbbf24;">public</span> <span style="color: #fbbf24;">payable</span> {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #fbbf24;">require</span>(<span style="color: #fbbf24;">msg.value</span> <= maxDeposit, <span style="color: #a78bfa;">"超过最大存款限制"</span>);<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deposits[<span style="color: #fbbf24;">msg.sender</span>] += <span style="color: #fbbf24;">msg.value</span>;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+                                }
+                            </div>
+                            
+                            <div style="background: #f0f9ff; padding: 20px; border-radius: 10px; margin: 20px 0;">
+                                <h5>任务要求：</h5>
+                                <ol style="margin: 10px 0 15px 20px;">
+                                    <li>将第5行的 <code>maxDeposit = 100</code> 修改为 <code>maxDeposit = 1000</code></li>
+                                    <li>在Remix中编译合约（确保没有错误）</li>
+                                    <li>部署到JavaScript VM环境</li>
+                                    <li>与合约交互，测试修改是否生效</li>
+                                </ol>
+                            </div>
+                            
+                            <div id="remix-challenge">
+                                <h5>任务验证</h5>
+                                <p>在下方输入你修改后的合约代码（只需粘贴修改后的第5行）：</p>
+                                <textarea id="contract-code" placeholder="uint public maxDeposit = 1000;" rows="3" style="width: 100%; padding: 12px; border: 2px solid var(--gray); border-radius: 8px; margin: 15px 0; font-family: 'Courier New', monospace;"></textarea>
+                                
+                                <div style="display: flex; gap: 15px; margin-top: 15px;">
+                                    <button class="btn" onclick="verifyContractCode()">
+                                        <i class="fas fa-check-circle"></i> 验证代码
+                                    </button>
+                                    <a href="https://remix.ethereum.org/" target="_blank" class="btn btn-outline">
+                                        <i class="fas fa-external-link-alt"></i> 打开Remix
+                                    </a>
+                                </div>
+                                
+                                <div id="code-verification-result" style="margin-top: 20px;"></div>
+                            </div>
+                            
+                            <div id="final-reward" style="display: none; text-align: center; padding: 30px; background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-radius: 15px; margin-top: 30px;">
+                                <h3 style="color: var(--primary); margin-bottom: 15px;">🎉 恭喜通关Web3新手村！</h3>
+                                <div style="font-size: 5rem; margin: 20px 0; color: var(--accent);">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <p><strong>你已获得"3月共学营入场券"电子徽章</strong></p>
+                                <p style="margin: 15px 0;">你已成功完成所有预习任务，为3月的Solidity共学做好了准备！</p>
+                                <button class="btn btn-lg" onclick="downloadFinalBadge()">
+                                    <i class="fas fa-award"></i> 领取通关徽章
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 进度跟踪 -->
+        <section class="progress-container">
+            <h3><i class="fas fa-chart-line"></i> 预习进度追踪</h3>
+            <p>已完成 <span id="completed-levels">1</span> / 5 个关卡</p>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 20%;"></div>
+            </div>
+            <p id="progress-text">正在挑战 Level 0: 环境准备</p>
+            <div style="margin-top: 20px;">
+                <button class="btn btn-outline" onclick="resetAllProgress()">
+                    <i class="fas fa-redo"></i> 重置所有进度
+                </button>
+            </div>
+        </section>
+        
+        <!-- 黄金资源速查表 -->
+        <section class="level-card">
+            <h2><i class="fas fa-star"></i> 黄金预习资源速查表</h2>
+            <p>这些是适合小白的资源，按优先级排序</p>
+            
+            <div class="resource-grid">
+                <div class="resource-card">
+                    <h4>🎬 视频类（建立认知）</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><a href="https://www.youtube.com/c/WhiteboardCrypto" target="_blank">Whiteboard Crypto</a> - 概念解释</li>
+                        <li><a href="https://www.youtube.com/c/Finematics" target="_blank">Finematics</a> - DeFi/NFT解析</li>
+                        <li><a href="https://www.bilibili.com/video/BV1St411H7FY" target="_blank">B站：区块链入门</a> - 中文入门</li>
+                    </ul>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>🎮 互动类（边玩边学）</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><a href="https://cryptozombies.io/" target="_blank">CryptoZombies</a> - Solidity游戏</li>
+                        <li><a href="https://eth.build/" target="_blank">ETH.build</a> - 可视化编程</li>
+                        <li><a href="https://andersbrownworth.com/blockchain/" target="_blank">区块链演示</a> - 概念可视化</li>
+                    </ul>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>📚 文档类（随时查阅）</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><a href="https://wtf.academy/" target="_blank">WTF Academy</a> - 中文教程</li>
+                        <li><a href="https://solidity-by-example.org/" target="_blank">Solidity by Example</a> - 代码示例</li>
+                        <li><a href="https://www.w3schools.com/" target="_blank">W3Schools</a> - 编程基础</li>
+                    </ul>
+                </div>
+                
+                <div class="resource-card">
+                    <h4>🛠️ 工具类（实战必备）</h4>
+                    <ul style="margin: 15px 0 15px 20px;">
+                        <li><a href="https://metamask.io/" target="_blank">MetaMask</a> - 钱包</li>
+                        <li><a href="https://remix.ethereum.org/" target="_blank">Remix IDE</a> - 开发环境</li>
+                        <li><a href="https://goerlifaucet.com/" target="_blank">Goerli水龙头</a> - 测试币</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-logo">
+                <i class="fas fa-campground"></i>
+            </div>
+            <h3>Web3新手村 | Solidity小白预习指南</h3>
+            <p>行动起来，获得动力，准备迎接3月共学营</p>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+            </div>
+            
+            <p style="margin-top: 25px; opacity: 0.8; font-size: 0.9rem;">
+                此资源站专为零基础学员设计 • 无代码/Web3经验友好 • 最后更新: 2026年2月
+            </p>
+            <p style="opacity: 0.6; font-size: 0.8rem; margin-top: 10px;">
+                重要提醒：务必提前完成GitHub、X、Telegram、谷歌邮箱、Notion的注册和基础配置
+            </p>
+        </div>
+    </footer>
+    
+    <script>
+        // 全局状态
+        let currentLevel = 0;
+        let completedLevels = [0]; // Level 0默认已开始
+        let walletAddress = "";
+        let transactionCompleted = false;
+        let logicCompleted = false;
+        let contractCompleted = false;
+        
+        // 工具完成状态
+        let toolsCompleted = {
+            github: [false, false, false],
+            twitter: [false, false, false],
+            telegram: [false, false, false],
+            gmail: [false, false, false],
+            notion: [false, false, false]
+        };
+        
+        // 倒计时功能
+        function updateCountdown() {
+            // 设置3月1日为开营日
+            const now = new Date();
+            const march1 = new Date(now.getFullYear(), 2, 1); // 月份从0开始，2代表3月
+            
+            // 如果今天已经过了3月1日，就设置下一年的3月1日
+            if (now > march1) {
+                march1.setFullYear(march1.getFullYear() + 1);
+            }
+            
+            const diffTime = march1 - now;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            const diffHours = Math.floor((diffTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const diffMinutes = Math.floor((diffTime % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('days').textContent = diffDays;
+            document.getElementById('hours').textContent = diffHours;
+            document.getElementById('minutes').textContent = diffMinutes;
+        }
+        
+        // 初始化倒计时
+        updateCountdown();
+        setInterval(updateCountdown, 60000); // 每分钟更新一次
+        
+        // 关卡切换功能
+        document.querySelectorAll('.level-step').forEach(step => {
+            step.addEventListener('click', function() {
+                const level = parseInt(this.getAttribute('data-level'));
+                switchLevel(level);
+            });
+        });
+        
+        function switchLevel(level) {
+            // 更新当前关卡
+            currentLevel = level;
+            
+            // 更新进度指示器
+            document.querySelectorAll('.level-step').forEach(step => {
+                const stepLevel = parseInt(step.getAttribute('data-level'));
+                step.classList.remove('active');
+                
+                if (stepLevel === level) {
+                    step.classList.add('active');
+                } else if (stepLevel < level) {
+                    step.classList.add('completed');
+                }
+            });
+            
+            // 更新内容显示
+            document.querySelectorAll('.level-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(`level-${level}`).classList.add('active');
+            
+            // 更新进度追踪
+            updateProgress();
+        }
+        
+        // 更新进度
+        function updateProgress() {
+            const completedCount = completedLevels.length;
+            const progressPercent = (completedCount / 5) * 100;
+            
+            document.getElementById('completed-levels').textContent = completedCount;
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            
+            const levelNames = ['环境准备', '破除迷雾', '魔法沙盒', '逻辑拼图', '初见 Solidity'];
+            document.getElementById('progress-text').textContent = 
+                completedCount === 5 ? 
+                '🎉 所有关卡已完成！' : 
+                `正在挑战 Level ${currentLevel}: ${levelNames[currentLevel]}`;
+        }
+        
+        // 工具复选框点击事件
+        document.querySelectorAll('.checklist-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('click', function() {
+                const tool = this.getAttribute('data-tool');
+                const step = parseInt(this.getAttribute('data-step')) - 1;
+                
+                // 切换完成状态
+                toolsCompleted[tool][step] = !toolsCompleted[tool][step];
+                
+                // 更新UI
+                if (toolsCompleted[tool][step]) {
+                    this.classList.add('checked');
+                } else {
+                    this.classList.remove('checked');
+                }
+                
+                // 更新工具卡片状态
+                updateToolStatus(tool);
+            });
+        });
+        
+        // 更新工具卡片状态
+        function updateToolStatus(tool) {
+            const allSteps = toolsCompleted[tool];
+            const completed = allSteps.every(step => step);
+            
+            // 找到对应的工具卡片
+            const toolCards = document.querySelectorAll('.tool-card');
+            toolCards.forEach(card => {
+                const cardTool = card.querySelector('.tool-icon').classList[1].replace('-bg', '');
+                if (cardTool === tool) {
+                    const statusElement = card.querySelector('.tool-status');
+                    if (completed) {
+                        statusElement.textContent = '已完成';
+                        statusElement.className = 'tool-status status-ready';
+                    } else {
+                        statusElement.textContent = '待完成';
+                        statusElement.className = 'tool-status status-pending';
+                    }
+                }
+            });
+        }
+        
+        // 检查所有工具完成状态
+        function checkAllTools() {
+            let allCompleted = true;
+            const resultDiv = document.getElementById('tools-check-result');
+            
+            for (const tool in toolsCompleted) {
+                const allSteps = toolsCompleted[tool];
+                const completed = allSteps.every(step => step);
+                
+                if (!completed) {
+                    allCompleted = false;
+                    break;
+                }
+            }
+            
+            if (allCompleted) {
+                resultDiv.innerHTML = `
+                    <div style="background: #d1fae5; color: #065f46; padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-check-circle"></i> 所有工具配置完成！
+                        </h4>
+                        <p>你已经完成了所有必要工具的注册和基础配置，可以顺利开始3月共学了！</p>
+                    </div>
+                `;
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="background: #fef3c7; color: #92400e; padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-exclamation-triangle"></i> 还有工具未完成配置
+                        </h4>
+                        <p>请确保完成所有5项工具的注册和基础配置，这些是3月共学的必要前提！</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">点击每个工具卡片中的复选框标记完成步骤</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 模拟Git提交
+        function simulateGitCommit() {
+            const message = document.getElementById('commit-message').value.trim();
+            const resultDiv = document.getElementById('git-sim-result');
+            
+            if (message.length === 0) {
+                resultDiv.innerHTML = `
+                    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle"></i> 请输入提交信息！
+                    </div>
+                `;
+                return;
+            }
+            
+            if (message.length < 5) {
+                resultDiv.innerHTML = `
+                    <div style="background: #fef3c7; color: #92400e; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-lightbulb"></i> 提交信息太短，建议描述更清晰（如：完成第一课练习 - 基础合约部署）
+                    </div>
+                `;
+                return;
+            }
+            
+            // 生成模拟提交哈希
+            const hash = '1a2b3c4'.split('').sort(() => Math.random() - 0.5).join('');
+            
+            resultDiv.innerHTML = `
+                <div style="background: #d1fae5; color: #065f46; padding: 15px; border-radius: 8px;">
+                    <h4 style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-check-circle"></i> 模拟提交成功！
+                    </h4>
+                    <p><strong>提交信息：</strong> ${message}</p>
+                    <p><strong>提交哈希：</strong> ${hash}</p>
+                    <p><strong>分支：</strong> main</p>
+                    <p style="margin-top: 10px; font-size: 0.9rem;">在真实的GitHub中，你需要使用 <code>git commit -m "${message}"</code> 然后 <code>git push</code></p>
+                </div>
+            `;
+            
+            // 标记GitHub学习完成
+            toolsCompleted.github[2] = true;
+            updateToolStatus('github');
+            
+            showNotification('Git提交模拟成功！你已经掌握了基本的Git操作', 'success');
+        }
+        
+        // Tweet字数统计
+        document.getElementById('tweet-content').addEventListener('input', function() {
+            const length = this.value.length;
+            document.getElementById('tweet-length').textContent = length;
+            
+            if (length > 280) {
+                document.getElementById('tweet-length').style.color = '#ef4444';
+            } else if (length > 250) {
+                document.getElementById('tweet-length').style.color = '#f59e0b';
+            } else {
+                document.getElementById('tweet-length').style.color = '#64748b';
+            }
+        });
+        
+        // 模拟发布Tweet
+        function simulateTweet() {
+            const content = document.getElementById('tweet-content').value.trim();
+            const resultDiv = document.getElementById('tweet-sim-result');
+            
+            if (content.length === 0) {
+                resultDiv.innerHTML = `
+                    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle"></i> 请输入Tweet内容！
+                    </div>
+                `;
+                return;
+            }
+            
+            if (content.length > 280) {
+                resultDiv.innerHTML = `
+                    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle"></i> Tweet内容超过280字符限制！
+                    </div>
+                `;
+                return;
+            }
+            
+            // 检查是否包含至少一个推荐标签
+            const recommendedTags = ['#100DaysOfSolidity', '#Web3新手村', '#Solidity学习', '#BuildInPublic', '#区块链开发'];
+            const hasTag = recommendedTags.some(tag => content.includes(tag));
+            
+            resultDiv.innerHTML = `
+                <div style="background: ${hasTag ? '#d1fae5' : '#fef3c7'}; color: ${hasTag ? '#065f46' : '#92400e'}; padding: 15px; border-radius: 8px;">
+                    <h4 style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-${hasTag ? 'check-circle' : 'lightbulb'}"></i> ${hasTag ? 'Tweet模拟发布成功！' : 'Tweet内容可优化'}
+                    </h4>
+                    <div style="background: white; padding: 15px; border-radius: 8px; margin: 10px 0; border-left: 4px solid var(--twitter);">
+                        <p>${content}</p>
+                        <p style="margin-top: 10px; color: #64748b; font-size: 0.9rem;">模拟发布时间: ${new Date().toLocaleString()}</p>
+                    </div>
+                    ${hasTag ? '' : '<p><strong>建议：</strong>添加相关标签如 #100DaysOfSolidity 或 #Web3新手村 可以让更多人看到你的学习进展</p>'}
+                </div>
+            `;
+            
+            // 标记Twitter学习完成
+            toolsCompleted.twitter[2] = true;
+            updateToolStatus('twitter');
+            
+            showNotification('Tweet模拟发布成功！记得在真实的X上Build in Public', 'success');
+        }
+        
+        // 验证环境准备完成
+        function verifyEnvironment() {
+            let allCompleted = true;
+            
+            // 检查每个工具是否至少完成了一个步骤
+            for (const tool in toolsCompleted) {
+                const anyStep = toolsCompleted[tool].some(step => step);
+                if (!anyStep) {
+                    allCompleted = false;
+                    break;
+                }
+            }
+            
+            const resultDiv = document.getElementById('env-verification-result');
+            
+            if (allCompleted) {
+                resultDiv.innerHTML = `
+                    <div style="background: #d1fae5; color: #065f46; padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-check-circle"></i> Level 0 完成！
+                        </h4>
+                        <p>你已经完成了所有必要工具的注册和基础配置，可以解锁下一关了！</p>
+                        <button class="btn" style="margin-top: 15px;" onclick="completeLevel0()">
+                            <i class="fas fa-unlock"></i> 解锁 Level 1
+                        </button>
+                    </div>
+                `;
+                
+                // 更新环境检查清单
+                for (const tool in toolsCompleted) {
+                    const checkbox = document.getElementById(`env-${tool}`);
+                    if (checkbox) {
+                        checkbox.classList.add('checked');
+                    }
+                }
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="background: #fef3c7; color: #92400e; padding: 20px; border-radius: 10px; text-align: center;">
+                        <h4 style="display: flex; align-items: center; justify-content: center; gap: 10px;">
+                            <i class="fas fa-exclamation-triangle"></i> 环境准备未完成
+                        </h4>
+                        <p>请至少完成每个工具的一项配置步骤。环境配置是3月共学的重要前提！</p>
+                        <p style="margin-top: 10px; font-size: 0.9rem;">点击每个工具卡片中的复选框标记完成步骤</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 完成Level 0
+        function completeLevel0() {
+            if (!completedLevels.includes(0)) {
+                completedLevels.push(0);
+            }
+            
+            // 自动解锁Level 1
+            if (!completedLevels.includes(1)) {
+                setTimeout(() => {
+                    switchLevel(1);
+                    showNotification('Level 0 完成！已解锁 Level 1: 破除迷雾', 'success');
+                }, 1000);
+            }
+            
+            updateProgress();
+        }
+        
+        // Level 1: 模拟钱包安装
+        function simulateWalletInstall() {
+            // 生成模拟钱包地址
+            const chars = '0123456789abcdef';
+            let address = '0x';
+            for (let i = 0; i < 40; i++) {
+                address += chars[Math.floor(Math.random() * chars.length)];
+            }
+            
+            walletAddress = address;
+            
+            // 显示成功消息
+            document.getElementById('wallet-simulation').style.display = 'none';
+            document.getElementById('wallet-success').style.display = 'block';
+            document.getElementById('wallet-address').textContent = address;
+            
+            showNotification('钱包创建成功！请保存你的钱包地址。', 'success');
+        }
+        
+        // 验证钱包地址
+        function verifyWalletAddress() {
+            const input = document.getElementById('wallet-input').value.trim();
+            const resultDiv = document.getElementById('wallet-verification-result');
+            
+            // 简单验证钱包地址格式
+            if (input.startsWith('0x') && input.length === 42) {
+                resultDiv.innerHTML = `
+                    <div style="background: #d1fae5; color: #065f46; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-check-circle"></i> 地址格式正确！Level 1 完成！
+                    </div>
+                `;
+                
+                // 标记Level 1完成
+                if (!completedLevels.includes(1)) {
+                    completedLevels.push(1);
+                }
+                
+                // 自动解锁Level 2
+                if (!completedLevels.includes(2)) {
+                    setTimeout(() => {
+                        switchLevel(2);
+                        showNotification('Level 1 完成！已解锁 Level 2: 魔法沙盒', 'success');
+                    }, 1500);
+                }
+                
+                updateProgress();
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle"></i> 地址格式不正确。钱包地址应以"0x"开头，长度为42个字符。
+                    </div>
+                `;
+            }
+        }
+        
+        // Level 2: 模拟领取测试币
+        function simulateGetTestETH() {
+            showNotification('已领取 0.1 Goerli ETH 测试币！', 'success');
+        }
+        
+        // Level 2: 发送第一笔交易
+        function sendFirstTransaction() {
+            const btn = document.getElementById('transaction-btn');
+            const detailsDiv = document.getElementById('transaction-details');
+            const statusSpan = document.getElementById('tx-status');
+            const confirmationsSpan = document.getElementById('block-confirmations');
+            
+            // 禁用按钮
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 交易处理中...';
+            btn.classList.remove('pulse');
+            
+            // 显示交易详情
+            detailsDiv.style.display = 'block';
+            
+            // 模拟交易确认过程
+            let confirmations = 0;
+            const interval = setInterval(() => {
+                confirmations++;
+                confirmationsSpan.textContent = confirmations;
+                
+                if (confirmations === 1) {
+                    statusSpan.textContent = '已确认';
+                    statusSpan.style.color = '#10b981';
+                }
+                
+                if (confirmations >= 5) {
+                    clearInterval(interval);
+                    
+                    // 显示NFT奖励
+                    document.getElementById('nft-reward').style.display = 'block';
+                    
+                    // 更新按钮状态
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> 交易已完成';
+                    btn.style.background = '#10b981';
+                    
+                    // 标记Level 2完成
+                    if (!completedLevels.includes(2)) {
+                        completedLevels.push(2);
+                    }
+                    
+                    // 自动解锁Level 3
+                    if (!completedLevels.includes(3)) {
+                        setTimeout(() => {
+                            switchLevel(3);
+                            showNotification('Level 2 完成！已解锁 Level 3: 逻辑拼图', 'success');
+                        }, 2000);
+                    }
+                    
+                    updateProgress();
+                }
+            }, 500);
+        }
+        
+        // 下载NFT奖励
+        function downloadNFTReward() {
+            showNotification('纪念证书已下载到您的设备！', 'success');
+        }
+        
+        // Level 3: 逻辑拼图功能
+        function initLogicBlocks() {
+            const blocks = document.querySelectorAll('.logic-block');
+            const workspace = document.getElementById('logic-workspace');
+            
+            blocks.forEach(block => {
+                block.addEventListener('dragstart', function(e) {
+                    e.dataTransfer.setData('text/plain', this.getAttribute('data-type'));
+                });
+            });
+            
+            workspace.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#6366f1';
+            });
+            
+            workspace.addEventListener('dragleave', function() {
+                this.style.borderColor = '#cbd5e1';
+            });
+            
+            workspace.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#cbd5e1';
+                
+                const blockType = e.dataTransfer.getData('text/plain');
+                const blockText = getBlockText(blockType);
+                
+                const newBlock = document.createElement('div');
+                newBlock.className = 'logic-block';
+                newBlock.setAttribute('data-type', blockType);
+                newBlock.style.margin = '5px';
+                newBlock.style.cursor = 'default';
+                newBlock.textContent = blockText;
+                
+                this.appendChild(newBlock);
+            });
+        }
+        
+        function getBlockText(type) {
+            const texts = {
+                'if': '如果',
+                'variable': '钱包余额',
+                'operator': '≥ 5',
+                'action': '买咖啡'
+            };
+            return texts[type] || '未知积木';
+        }
+        
+        // 测试逻辑
+        function testLogic() {
+            const workspace = document.getElementById('logic-workspace');
+            const blocks = workspace.querySelectorAll('.logic-block');
+            const resultDiv = document.getElementById('logic-test-result');
+            
+            if (blocks.length === 0) {
+                resultDiv.innerHTML = `
+                    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle"></i> 工作区为空！请拖拽积木构建逻辑。
+                    </div>
+                `;
+                return;
+            }
+            
+            // 简单验证逻辑结构
+            const blockTypes = Array.from(blocks).map(b => b.getAttribute('data-type'));
+            const hasIf = blockTypes.includes('if');
+            const hasVariable = blockTypes.includes('variable');
+            const hasOperator = blockTypes.includes('operator');
+            const hasAction = blockTypes.includes('action');
+            
+            if (hasIf && hasVariable && hasOperator && hasAction) {
+                resultDiv.innerHTML = `
+                    <div style="background: #d1fae5; color: #065f46; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-check-circle"></i> 逻辑正确！如果钱包余额 ≥ 5，可以买咖啡。
+                    </div>
+                `;
+                
+                // 标记Level 3完成
+                if (!completedLevels.includes(3)) {
+                    completedLevels.push(3);
+                }
+                
+                // 自动解锁Level 4
+                if (!completedLevels.includes(4)) {
+                    setTimeout(() => {
+                        switchLevel(4);
+                        showNotification('Level 3 完成！已解锁 Level 4: 初见 Solidity', 'success');
+                    }, 1500);
+                }
+                
+                updateProgress();
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="background: #fef3c7; color: #92400e; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-lightbulb"></i> 逻辑不完整。尝试构建: 如果[钱包余额 ≥ 5]则[买咖啡]
+                    </div>
+                `;
+            }
+        }
+        
+        // 重置工作区
+        function resetWorkspace() {
+            document.getElementById('logic-workspace').innerHTML = '';
+            document.getElementById('logic-test-result').innerHTML = '';
+        }
+        
+        // 显示答案
+        function showSolution() {
+            const workspace = document.getElementById('logic-workspace');
+            workspace.innerHTML = '';
+            
+            const solution = ['if', 'variable', 'operator', 'action'];
+            solution.forEach(type => {
+                const block = document.createElement('div');
+                block.className = 'logic-block';
+                block.setAttribute('data-type', type);
+                block.style.margin = '5px';
+                block.style.cursor = 'default';
+                block.textContent = getBlockText(type);
+                workspace.appendChild(block);
+            });
+            
+            document.getElementById('logic-test-result').innerHTML = `
+                <div style="background: #e0e7ff; color: #3730a3; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                    <i class="fas fa-info-circle"></i> 已显示答案：如果钱包余额 ≥ 5，可以买咖啡。
+                </div>
+            `;
+        }
+        
+        // Level 4: 验证合约代码
+        function verifyContractCode() {
+            const code = document.getElementById('contract-code').value.trim();
+            const resultDiv = document.getElementById('code-verification-result');
+            
+            // 简单验证代码
+            const correctPatterns = [
+                /uint\s+public\s+maxDeposit\s*=\s*1000\s*;/,
+                /uint public maxDeposit = 1000;/,
+                /uint public maxDeposit=1000;/
+            ];
+            
+            const isCorrect = correctPatterns.some(pattern => pattern.test(code));
+            
+            if (isCorrect) {
+                resultDiv.innerHTML = `
+                    <div style="background: #d1fae5; color: #065f46; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-check-circle"></i> 代码正确！你已成功修改存钱罐合约。
+                    </div>
+                `;
+                
+                // 显示最终奖励
+                document.getElementById('final-reward').style.display = 'block';
+                
+                // 标记Level 4完成
+                if (!completedLevels.includes(4)) {
+                    completedLevels.push(4);
+                }
+                
+                updateProgress();
+                
+                // 滚动到奖励区域
+                document.getElementById('final-reward').scrollIntoView({ behavior: 'smooth' });
+            } else {
+                resultDiv.innerHTML = `
+                    <div style="background: #fee2e2; color: #991b1b; padding: 15px; border-radius: 8px;">
+                        <i class="fas fa-exclamation-circle"></i> 代码不正确。请确保将 maxDeposit 修改为 1000。
+                    </div>
+                `;
+            }
+        }
+        
+        // 下载最终徽章
+        function downloadFinalBadge() {
+            showNotification('通关徽章已下载！恭喜完成所有预习任务！', 'success');
+        }
+        
+        // 重置所有进度
+        function resetAllProgress() {
+            if (confirm("确定要重置所有进度吗？这将清除你的所有进度记录。")) {
+                completedLevels = [0];
+                walletAddress = "";
+                transactionCompleted = false;
+                logicCompleted = false;
+                contractCompleted = false;
+                
+                // 重置工具状态
+                for (const tool in toolsCompleted) {
+                    toolsCompleted[tool] = [false, false, false];
+                }
+                
+                // 重置UI
+                document.querySelectorAll('.checklist-checkbox').forEach(checkbox => {
+                    checkbox.classList.remove('checked');
+                });
+                
+                document.querySelectorAll('.tool-status').forEach(status => {
+                    status.textContent = '待完成';
+                    status.className = 'tool-status status-pending';
+                });
+                
+                document.getElementById('wallet-simulation').style.display = 'block';
+                document.getElementById('wallet-success').style.display = 'none';
+                document.getElementById('wallet-input').value = '';
+                document.getElementById('wallet-verification-result').innerHTML = '';
+                
+                document.getElementById('transaction-details').style.display = 'none';
+                document.getElementById('nft-reward').style.display = 'none';
+                const txBtn = document.getElementById('transaction-btn');
+                txBtn.disabled = false;
+                txBtn.innerHTML = '<i class="fas fa-bolt"></i> Hello Blockchain!';
+                txBtn.classList.add('pulse');
+                txBtn.style.background = '';
+                
+                resetWorkspace();
+                
+                document.getElementById('contract-code').value = '';
+                document.getElementById('code-verification-result').innerHTML = '';
+                document.getElementById('final-reward').style.display = 'none';
+                
+                document.getElementById('commit-message').value = '';
+                document.getElementById('git-sim-result').innerHTML = '';
+                
+                document.getElementById('tweet-content').value = '';
+                document.getElementById('tweet-length').textContent = '0';
+                document.getElementById('tweet-sim-result').innerHTML = '';
+                
+                document.getElementById('env-verification-result').innerHTML = '';
+                document.getElementById('tools-check-result').innerHTML = '';
+                
+                switchLevel(0);
+                updateProgress();
+                
+                showNotification('所有进度已重置，重新开始你的Web3旅程吧！', 'info');
+            }
+        }
+        
+        // 显示通知
+        function showNotification(message, type = 'info') {
+            // 创建通知元素
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#6366f1'};
+                color: white;
+                padding: 15px 25px;
+                border-radius: 12px;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+                max-width: 350px;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            `;
+            
+            const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+            notification.innerHTML = `
+                <i class="fas ${icon}" style="font-size: 1.2rem;"></i>
+                <div>${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // 3秒后移除通知
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+            
+            // 添加动画关键帧
+            if (!document.querySelector('#notification-styles')) {
+                const style = document.createElement('style');
+                style.id = 'notification-styles';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes slideOut {
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(100%); opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+        
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化关卡系统
+            switchLevel(0);
+            
+            // 初始化逻辑积木
+            initLogicBlocks();
+            
+            // 添加示例钱包地址到输入框
+            document.getElementById('wallet-input').placeholder = "0x" + "a1b2".repeat(10);
+            
+            // 显示欢迎消息
+            setTimeout(() => {
+                showNotification('欢迎来到Web3新手村！请首先完成Level 0的环境准备，这是3月共学的重要前提！', 'info');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
