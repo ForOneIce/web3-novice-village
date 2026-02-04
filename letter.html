@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web3新手村 | 冰杯信笺 |冰入空杯”</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background: #0a192f;
+            color: #e6f1ff;
+            line-height: 1.8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* 冰杯背景效果 */
+        .ice-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(100, 217, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(100, 217, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #0a192f 0%, #0d1b2a 100%);
+            z-index: -2;
+        }
+        
+        /* 玻璃杯效果 - 移到底部 */
+        .glass-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 40px auto 60px;
+            height: 450px;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .glass-container.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .glass {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px 10px 30px 30px;
+            border: 1px solid rgba(100, 217, 255, 0.1);
+            box-shadow: 
+                inset 0 0 30px rgba(100, 217, 255, 0.05),
+                0 0 40px rgba(100, 217, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .glass::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px 10px 0 0;
+        }
+        
+        /* 冰块动画 */
+        .ice-cube {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 
+                inset 0 0 10px rgba(173, 216, 230, 0.5),
+                0 0 15px rgba(173, 216, 230, 0.5);
+            opacity: 0;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* 永久冰块 - 不会消失 */
+        .ice-cube.permanent-ice {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 
+                inset 0 0 15px rgba(173, 216, 230, 0.7),
+                0 0 20px rgba(173, 216, 230, 0.6);
+        }
+        
+        /* 全屏特效冰块 - 更闪亮 */
+        .ice-cube.screen-ice {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(173, 216, 230, 0.8));
+            box-shadow: 
+                inset 0 0 20px rgba(173, 216, 230, 0.8),
+                0 0 30px rgba(100, 217, 255, 0.7),
+                0 0 50px rgba(100, 217, 255, 0.4);
+            animation: sparkle 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes sparkle {
+            from {
+                filter: brightness(1);
+            }
+            to {
+                filter: brightness(1.3);
+            }
+        }
+        
+        /* 内容区域 */
+        .content-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            z-index: 10;
+        }
+        
+        .letter-header {
+            text-align: center;
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s forwards 0.5s;
+        }
+        
+        .letter-header h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #64d9ff, #a1e3ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(100, 217, 255, 0.3);
+        }
+        
+        .letter-header .subtitle {
+            font-size: 1rem;
+            color: #8892b0;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+        
+        /* 信纸效果 */
+        .letter {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(100, 217, 255, 0.1);
+            border-radius: 4px;
+            padding: 40px;
+            backdrop-filter: blur(5px);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 1s forwards 1s;
+        }
+        
+        .salutation {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #64d9ff;
+            font-weight: 300;
+        }
+        
+        .letter-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #ccd6f6;
+        }
+        
+        .paragraph {
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .paragraph.highlight {
+            border-left: 3px solid #64d9ff;
+            padding-left: 20px;
+            margin: 30px 0;
+            color: #e6f1ff;
+        }
+        
+        .paragraph.highlight .number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: rgba(100, 217, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 10px;
+            font-size: 0.9rem;
+            color: #64d9ff;
+        }
+        
+        .sign-off {
+            text-align: right;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(100, 217, 255, 0.2);
+            color: #8892b0;
+            font-style: italic;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .signature {
+            font-size: 1.3rem;
+            color: #64d9ff;
+            margin-top: 10px;
+            font-weight: 300;
+        }
+        
+        /* 按钮区域 */
+        .action-area {
+            text-align: center;
+            margin-top: 60px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        
+        .enter-btn {
+            display: inline-block;
+            background: transparent;
+            color: #64d9ff;
+            border: 1px solid rgba(100, 217, 255, 0.3);
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .enter-btn:hover {
+            background: rgba(100, 217, 255, 0.1);
+            border-color: #64d9ff;
+            box-shadow: 0 0 20px rgba(100, 217, 255, 0.3);
+            letter-spacing: 2px;
+            padding-right: 45px;
+        }
+        
+        .enter-btn i {
+            margin-left: 10px;
+            transition: transform 0.4s ease;
+        }
+        
+        .enter-btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* 霜冻文字效果 */
+        .frost-text {
+            background: linear-gradient(90deg, #a1e3ff, #64d9ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(100, 217, 255, 0.5);
+        }
+        
+        /* 冰裂效果 */
+        .crack {
+            position: fixed;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 99;
+        }
+        
+        /* 动画 */
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes iceDrop {
+            0% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.8;
+                transform: translateY(300px) rotate(180deg);
+            }
+        }
+        
+        @keyframes iceCrack {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            0%, 100% { border-color: transparent; }
+            50% { border-color: #64d9ff; }
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .letter-header h1 {
+                font-size: 2rem;
+            }
+            
+            .letter {
+                padding: 25px;
+            }
+            
+            .glass {
+                width: 200px;
+                height: 300px;
+            }
+        }
+        
+        /* 打字机光标效果 */
+        .typing-cursor::after {
+            content: '|';
+            color: #64d9ff;
+            animation: blink 0.8s step-end infinite;
+        }
+        
+        /* 冰块音效触发区 */
+        .click-area {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            cursor: pointer;
+        }
+        
+        /* 音效提示 */
+        .sound-hint {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            color: #8892b0;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            z-index: 100;
+            text-align: right;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            background: rgba(10, 25, 47, 0.8);
+            border-radius: 8px;
+            border: 1px solid rgba(100, 217, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- 背景效果 -->
+    <div class="ice-background"></div>
+    
+    <!-- 内容容器 -->
+    <div class="content-container">
+        <div class="letter-header">
+            <h1>致 3 月份即将出发的探索者：</h1>
+            <div class="subtitle">A LETTER TO MARCH EXPLORERS</div>
+        </div>
+        
+        <div class="letter">
+            <div class="salutation frost-text">你好，新同学</div>
+            
+            <div class="letter-content">
+                <p class="paragraph">
+                    在还没有开学的此刻，我猜你心里可能正装着几个沉甸甸的问号：“我可以学会吗？”“我能学吗？”“会不会对我来说，太难了？”
+                </p>
+                
+                <p class="paragraph" style="font-size: 1.3rem; color: #64d9ff; margin: 30px 0;">
+                    放下那些杂念，请先深呼吸。答案其实很简单：<span class="frost-text">你可以。虽然这是一段并不容易的旅程，但你将见证自己的成长。</span>
+                </p>
+                
+                <p class="paragraph">
+                    真正重要的不是代码基础，而是逻辑思维能力。逻辑思维能力是编程的核心，是解决问题的关键。而你每天都在运用逻辑思维能力：决定早餐吃什么、安排一天的工作顺序、解决生活中的突发难题。
+                </p>
+                
+                <p class="paragraph">
+                    如果你擅长<span class="frost-text">看到问题</span>并享受<span class="frost-text">创造解法</span>。带上你的观察力和创造力出发。
+                </p>
+
+                <p class="paragraph">
+                    如果你只是<span class="frost-text">好奇</span>喜欢问<span class="frost-text">是什么为什么怎么做</span>。带上你的好奇心出发。
+                </p>
+
+                <p class="paragraph">
+                    如果你对自己有<span class="frost-text">耐心</span>允许自己<span class="frost-text">在犯错中学习</span>。摔倒路上看见彼此，笑着站起来出发。
+                </p>
+                
+                <div class="paragraph highlight">
+                    <div style="margin-bottom: 20px;"><span class="number">1</span> 把手弄脏</div>
+                    <p>用玩泥巴的心态接触代码。把报错当作修正雕塑的提示，试试更多不同方式构建你的想法。"</p>
+                    
+                    <div style="margin: 25px 0 20px 0;"><span class="number">2</span> 学会搜索</div>
+                    <p>优秀程序员不是知道答案，是知道<span class="frost-text">怎么找到答案</span>。搜索引擎、AI工具是学习好搭档。</p>
+                    
+                    <div style="margin: 25px 0 20px 0;"><span class="number">3</span> 享受跨界</div>
+                    <p>用新工具做出第一个新鲜东西时的快感，是你探险的回报。</p>
+                </div>
+                
+                <p class="paragraph">
+                    Web3如果对你来说是新大陆。<br>
+                    那你这个空杯子最好装东西。
+                </p>
+            </div>
+            
+            <div class="sign-off">
+                <p>你已经拥有了最重要的东西——开始的勇气。剩下的，只是时间和练习的问题。</p>
+                <div class="signature frost-text">Web3新手村</div>
+                <div style="font-size: 0.9rem; margin-top: 5px;">2024年2月</div>
+            </div>
+        </div>
+        
+        <div class="action-area">
+            <a href="index.html" class="enter-btn" id="enterBtn">
+                进入新手村 <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+        
+        <!-- 玻璃杯 - 移到按钮下方 -->
+        <div class="glass-container" id="glassContainer">
+            <div class="glass"></div>
+            <div class="click-area" id="clickArea"></div>
+        </div>
+    </div>
+    
+   
+    
+    <script>
+        // 全局变量：冰块计数和满杯状态
+        let iceCubeCount = 0;
+        const MAX_ICE_CUBES = 30; // 满杯需要的冰块数量
+        let isGlassFull = false;
+        
+        // 预加载冰块音效
+        const iceSoundPool = [];
+        const SOUND_POOL_SIZE = 10; // 音效池大小，支持快速连续播放
+        
+        // 初始化音效池
+        for (let i = 0; i < SOUND_POOL_SIZE; i++) {
+            const sound = new Audio('ice.WAV');
+            sound.preload = 'auto';
+            sound.volume = 0.5;
+            iceSoundPool.push(sound);
+        }
+        
+        let currentSoundIndex = 0;
+        
+        // 播放冰块音效
+        function playIceSound() {
+            const sound = iceSoundPool[currentSoundIndex];
+            currentSoundIndex = (currentSoundIndex + 1) % SOUND_POOL_SIZE;
+            
+            // 重置播放位置并播放
+            sound.currentTime = 0;
+            sound.play().catch(err => {
+                console.log('音效播放失败:', err);
+            });
+        }
+        
+        // 冰块生成器 - 掉入杯子（不消失）
+        function createIceCube() {
+            const glassContainer = document.getElementById('glassContainer');
+            if (!glassContainer || !glassContainer.classList.contains('show')) {
+                return; // 杯子未显示时不生成冰块
+            }
+            
+            // 如果已满杯，只生成特效冰块（会消失）
+            const isPermanent = iceCubeCount < MAX_ICE_CUBES;
+            
+            const iceCube = document.createElement('div');
+            iceCube.className = 'ice-cube';
+            if (isPermanent) {
+                iceCube.classList.add('permanent-ice');
+            }
+            
+            // 获取杯子容器的位置
+            const rect = glassContainer.getBoundingClientRect();
+            
+            // 随机位置（相对于杯子宽度的中心区域）
+            const xOffset = rect.width * 0.2 + Math.random() * (rect.width * 0.6);
+            const startX = rect.left + xOffset;
+            const startY = rect.top - 100;
+            
+            iceCube.style.left = `${startX}px`;
+            iceCube.style.top = `${startY}px`;
+            
+            // 随机大小
+            const size = 20 + Math.random() * 40;
+            iceCube.style.width = `${size}px`;
+            iceCube.style.height = `${size}px`;
+            
+            // 随机圆角
+            const borderRadius = 4 + Math.random() * 10;
+            iceCube.style.borderRadius = `${borderRadius}px`;
+            
+            document.body.appendChild(iceCube);
+            
+            // 动画：掉落到杯子里
+            const duration = 0.8 + Math.random() * 0.4;
+            // 根据已有冰块数量调整落点高度（堆叠效果）
+            const stackHeight = Math.min(iceCubeCount * 15, rect.height * 0.5);
+            const targetY = rect.top + rect.height * 0.75 - stackHeight;
+            const rotation = 180 + Math.random() * 360;
+            
+            iceCube.animate([
+                { 
+                    transform: `translateY(0) rotate(0deg)`, 
+                    opacity: 0 
+                },
+                { 
+                    transform: `translateY(${targetY - startY}px) rotate(${rotation}deg)`, 
+                    opacity: 1 
+                }
+            ], {
+                duration: duration * 1000,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                fill: 'forwards'
+            });
+            
+            // 冰裂效果（在杯子位置）
+            setTimeout(() => {
+                createCrackEffect(startX, targetY);
+                // 播放冰块音效
+                playIceSound();
+            }, duration * 800);
+            
+            // 永久冰块不消失
+            if (isPermanent) {
+                iceCubeCount++;
+                // 检查是否满杯
+                if (iceCubeCount >= MAX_ICE_CUBES && !isGlassFull) {
+                    isGlassFull = true;
+                    showFullGlassMessage();
+                }
+            } else {
+                // 特效冰块在一段时间后消失
+                setTimeout(() => {
+                    iceCube.style.opacity = '0';
+                    setTimeout(() => iceCube.remove(), 500);
+                }, duration * 1000 + 1500);
+            }
+        }
+        
+        // 创建全屏特效冰块（满杯后）
+        function createScreenIceCube() {
+            const iceCube = document.createElement('div');
+            iceCube.className = 'ice-cube screen-ice';
+            
+            // 随机位置（整个屏幕宽度）
+            const startX = Math.random() * window.innerWidth;
+            const startY = -100;
+            
+            iceCube.style.left = `${startX}px`;
+            iceCube.style.top = `${startY}px`;
+            
+            // 随机大小
+            const size = 20 + Math.random() * 50;
+            iceCube.style.width = `${size}px`;
+            iceCube.style.height = `${size}px`;
+            
+            // 随机圆角
+            const borderRadius = 4 + Math.random() * 15;
+            iceCube.style.borderRadius = `${borderRadius}px`;
+            
+            document.body.appendChild(iceCube);
+            
+            // 动画：从顶部掉落到底部
+            const duration = 1 + Math.random() * 0.8;
+            const targetY = window.innerHeight + 50;
+            const rotation = Math.random() * 720 - 360;
+            // 添加横向漂移
+            const drift = (Math.random() - 0.5) * 200;
+            
+            iceCube.animate([
+                { 
+                    transform: `translate(0, 0) rotate(0deg)`, 
+                    opacity: 0 
+                },
+                { 
+                    transform: `translate(${drift}px, ${targetY - startY}px) rotate(${rotation}deg)`, 
+                    opacity: 1,
+                    offset: 0.2
+                },
+                { 
+                    transform: `translate(${drift}px, ${targetY - startY}px) rotate(${rotation}deg)`, 
+                    opacity: 0.8 
+                }
+            ], {
+                duration: duration * 1000,
+                easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                fill: 'forwards'
+            });
+            
+            // 碰撞效果和音效
+            setTimeout(() => {
+                createCrackEffect(startX + drift, targetY - 50);
+                playIceSound();
+            }, duration * 900);
+            
+            // 消失
+            setTimeout(() => {
+                iceCube.style.opacity = '0';
+                setTimeout(() => iceCube.remove(), 300);
+            }, duration * 1000 + 800);
+        }
+        
+        // 满杯提示
+        function showFullGlassMessage() {
+            const hint = document.querySelector('.sound-hint');
+            if (hint) {
+                hint.innerHTML = '🎉 杯满了！点击屏幕任意位置<br>享受冰块雨特效 🧊';
+                hint.style.fontSize = '0.9rem';
+                hint.style.color = '#64d9ff';
+                hint.style.textAlign = 'center';
+                hint.style.lineHeight = '1.4';
+                
+                // 5秒后恢复原文字
+                setTimeout(() => {
+                    hint.textContent = '点击屏幕 冰块雨';
+                    hint.style.fontSize = '0.8rem';
+                    hint.style.color = '#8892b0';
+                }, 5000);
+            }
+        }
+        
+        // 冰裂效果 - 在指定位置
+        function createCrackEffect(x, y) {
+            // 创建多个裂痕
+            for (let i = 0; i < 3; i++) {
+                const crack = document.createElement('div');
+                crack.className = 'crack';
+                
+                // 在指定位置周围随机偏移
+                const offsetX = (Math.random() - 0.5) * 30;
+                const offsetY = (Math.random() - 0.5) * 30;
+                const width = 1 + Math.random() * 3;
+                const height = 20 + Math.random() * 50;
+                const rotation = Math.random() * 360;
+                
+                crack.style.left = `${x + offsetX}px`;
+                crack.style.top = `${y + offsetY}px`;
+                crack.style.width = `${width}px`;
+                crack.style.height = `${height}px`;
+                crack.style.transform = `rotate(${rotation}deg)`;
+                crack.style.opacity = '0';
+                
+                document.body.appendChild(crack);
+                
+                // 显示裂痕
+                setTimeout(() => {
+                    crack.style.transition = 'opacity 0.3s ease';
+                    crack.style.opacity = '0.8';
+                    
+                    // 淡出裂痕
+                    setTimeout(() => {
+                        crack.style.opacity = '0';
+                        setTimeout(() => crack.remove(), 300);
+                    }, 800);
+                }, i * 100);
+            }
+        }
+        
+        // 真正的打字机效果 - 一个字一个字出现
+        function typewriterEffect() {
+            // 收集所有需要打字的元素（按顺序）
+            const elements = [
+                document.querySelector('.salutation'),
+                ...document.querySelectorAll('.letter-content .paragraph'),
+                document.querySelector('.sign-off')
+            ].filter(Boolean);
+            
+            // 为每个元素保存原始内容
+            const elementsData = elements.map(el => ({
+                element: el,
+                originalHTML: el.innerHTML,
+                fullText: el.textContent,
+                currentIndex: 0
+            }));
+            
+            // 初始化：清空所有元素内容，但保持可见
+            elementsData.forEach(data => {
+                data.element.textContent = '';
+                data.element.style.opacity = '1';
+                data.element.style.transform = 'translateY(0)';
+            });
+            
+            let currentElementIndex = 0;
+            const typingSpeed = 50; // 每个字50毫秒
+            
+            function typeNextChar() {
+                if (currentElementIndex >= elementsData.length) {
+                    // 打字完成，显示按钮和杯子
+                    const actionArea = document.querySelector('.action-area');
+                    const glassContainer = document.getElementById('glassContainer');
+                    
+                    if (actionArea) {
+                        actionArea.style.opacity = '1';
+                        actionArea.style.transform = 'translateY(0)';
+                    }
+                    
+                    // 延迟显示杯子（让按钮先出现）
+                    setTimeout(() => {
+                        if (glassContainer) {
+                            glassContainer.classList.add('show');
+                        }
+                    }, 800);
+                    
+                    return; // 所有元素都已完成
+                }
+                
+                const currentData = elementsData[currentElementIndex];
+                const { element, fullText, originalHTML } = currentData;
+                
+                // 如果当前元素还没打完
+                if (currentData.currentIndex < fullText.length) {
+                    // 添加下一个字符
+                    currentData.currentIndex++;
+                    element.textContent = fullText.substring(0, currentData.currentIndex);
+                    
+                    // 添加光标效果（仅当前正在打字的元素）
+                    element.classList.add('typing-cursor');
+                    
+                    // 继续打下一个字
+                    setTimeout(typeNextChar, typingSpeed);
+                } else {
+                    // 当前元素打完了
+                    element.classList.remove('typing-cursor');
+                    
+                    // 恢复原始HTML（保留 frost-text 等样式）
+                    element.innerHTML = originalHTML;
+                    
+                    // 移动到下一个元素
+                    currentElementIndex++;
+                    
+                    // 稍微停顿一下再开始下一段
+                    setTimeout(typeNextChar, 300);
+                }
+            }
+            
+            // 开始打字
+            typeNextChar();
+        }
+        
+        // 页面加载时的初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 开始打字机效果（在信纸出现后）
+            setTimeout(() => {
+                typewriterEffect();
+            }, 2000); // 等待2秒让信纸完全显示
+            
+            // 点击杯子区域添加冰块
+            document.getElementById('clickArea').addEventListener('click', function(e) {
+                e.stopPropagation(); // 阻止事件冒泡
+                // 创建多个冰块
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => createIceCube(), i * 100);
+                }
+                
+                // 轻微震动效果
+                const glass = document.querySelector('.glass');
+                if (glass) {
+                    glass.style.transform = 'translateX(-50%) scale(1.02)';
+                    setTimeout(() => {
+                        glass.style.transform = 'translateX(-50%) scale(1)';
+                    }, 100);
+                }
+            });
+            
+            // 满杯后，点击页面任意位置都能掉全屏冰块特效
+            document.body.addEventListener('click', function(e) {
+                // 如果点击的是按钮，不触发冰块
+                if (e.target.closest('#enterBtn')) {
+                    return;
+                }
+                
+                // 只有满杯后才在任意位置点击掉冰块
+                if (isGlassFull) {
+                    // 创建全屏冰块雨特效（5-8个冰块）
+                    const iceCount = 5 + Math.floor(Math.random() * 4);
+                    for (let i = 0; i < iceCount; i++) {
+                        setTimeout(() => createScreenIceCube(), i * 100);
+                    }
+                }
+            });
+
+            
+            // 进入按钮点击事件 - 直接跳转
+            document.getElementById('enterBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 页面过渡效果
+                document.body.style.opacity = '0.9';
+                document.body.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(() => {
+                    // 跳转到新手村主页面
+                    window.location.href = 'index.html';
+                }, 500);
+            });
+            
+            // 添加键盘支持
+            document.addEventListener('keydown', function(e) {
+                // 空格键添加冰块
+                if (e.code === 'Space') {
+                    e.preventDefault();
+                    const glassContainer = document.getElementById('glassContainer');
+                    if (glassContainer && glassContainer.classList.contains('show')) {
+                        if (isGlassFull) {
+                            // 满杯后：全屏冰块雨
+                            const iceCount = 5 + Math.floor(Math.random() * 4);
+                            for (let i = 0; i < iceCount; i++) {
+                                setTimeout(() => createScreenIceCube(), i * 100);
+                            }
+                        } else {
+                            // 未满杯：添加到杯中
+                            for (let i = 0; i < 2; i++) {
+                                setTimeout(() => createIceCube(), i * 100);
+                            }
+                        }
+                    }
+                }
+                
+                // Enter键进入新手村
+                if (e.code === 'Enter') {
+                    document.getElementById('enterBtn').click();
+                }
+            });
+        });
+        
+        // 鼠标移动时的微妙效果
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // 背景光跟随鼠标
+            document.querySelector('.ice-background').style.background = 
+                `radial-gradient(circle at ${x*100}% ${y*100}%, rgba(100, 217, 255, 0.05) 0%, transparent 50%),
+                 radial-gradient(circle at ${100-x*100}% ${100-y*100}%, rgba(100, 217, 255, 0.05) 0%, transparent 50%),
+                 linear-gradient(135deg, #0a192f 0%, #0d1b2a 100%)`;
+        });
+    </script>
+</body>
+</html>
